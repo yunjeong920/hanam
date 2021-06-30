@@ -2158,4 +2158,198 @@ body {
     right: 5px;
   }
   /* 4차 메뉴 활성화 */
+  .lnb .menu .depth2_item.active .depth4 {
+    transition-property: visibility, opacity;
+    visibility: visible;
+    opacity: 1l;
+  }
+  .lnb .menu .depth2_item.active .depth4_list {
+    margin-top: 10px;
+    padding: 10px 5px;
+    background-color: #f4f5f9;
+    transition-property: margin-top, padding-top, margin-bottom, padding-bottom;
+  }
+  .lnb .menu .depth2_item.active .depth4_item {
+    margin-top: 0;
+    transition-property: margin-top;
+  }
+  .lnb .menu .depth2_item.active .depth4_text {
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #7d7d7d;
+    word-break: keep-all;
+    transition: none;
+  }
+  .lnb .menu .depth2_item.active .depth4_text:before {
+    visibility: inherit;
+    opacity: 1;
+  }
+  .lnb .menu .depth2_item.active .depth4_text[target='_blank']:after {
+    top: 5px;
+    bottom: auto;
+    right: 5px;
+  }
+}
+
+@media all and (max-width: 640px) {
+  .lnb .site:after {
+    right: 24px;
+    width: 106px;
+    height: 42px;
+  }
+  .lnb .site_list {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .lnb .site_anchor {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .lnb .link_anchor {
+    font-size: 14px;
+  }
+  .lnb .menu_show {
+    top: 10px;
+    right: calc( 3% + 27px);
+  }
+  .lnb .menu_show .menu_btn {
+    width: 30px;
+    height: 30px;
+  }
+  .lnb .menu_show .menu_btn:before {
+    width: 15px;
+    height: 12px;
+    background-size: 15px auto;
+  }
+  .fixed .lnb .menu {
+    padding-top: 40px;
+  }
+  .fixed .lnb .menu_header {
+    height: 40px;
+  }
+  .fixed .lnb .menu_header:before {
+    top: 5px;
+    height: 27px;
+    background-size: auto 27px;
+  }
+  .fixed .lnb .link_list {
+    margin-top: 0;
+  }
+  .fixed .lnb .language_panel {
+    top: 39px;
+  }
+  .fixed .lnb .menu_show {
+    top: 5px;
+  }
+  .fixed .lnb .menu_hide {
+    top: 8px;
+  }
+  /* 사이트맵 */
+  .sitemap_show {
+    position: absolute;
+    top: 34px;
+    right: 54px;
+    z-index: 40;
+    width: 36px;
+    height: 36px;
+    transition-property: top;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+  }
+  .sitemap_show .sitemap_anchor {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+  }
+  .sitemap_show .sitemap_anchor:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 20px;
+    height: 16px;
+    margin: auto;
+    background-image: url("../img/main/sitemap_btn.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+  }
+  .fixed .sitemap_show {
+    top: 22px;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .sitemap_show {
+    display: none;
+  }
+}
+
+@media all and (min-width: 1001px) {
+  .lnb .user {
+    display: none;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .lnb .user {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: calc(3% + 70px);
+    z-index: 30;
+    transition-property: top;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+  }
+  .fixed .lnb .user {
+    top: 5px;
+  }
+  .lnb .user_item {
+    float: left;
+    position: relative;
+  }
+  .lnb .user_item + .user_item {
+    margin-left: 10px;
+  }
+  .lnb .user_anchor {
+    position: relative;
+    min-width: 40px;
+    height: 40px;
+    font-size: 0;
+    line-height: 40px;
+  }
+  .lnb .user_anchor:before {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 8px;
+    width: 24px;
+    height: 22px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-image: url("../img/icon/user_sprite.png");
+    background-repeat: no-repeat;
+  }
+  .lnb .info .user_anchor {
+    padding-left: 40px;
+    font-size: 12px;
+    color: #7d7d7d;
+  }
+  .lnb .login .user_anchor:before {
+    background-position: left top;
+  }
+  .lnb .info .user_anchor:before {
+    background-position: left 50%;
+  }
+  .lnb .logout .user_anchor:before {
+    background-position: left 100%;
+  }
 }
