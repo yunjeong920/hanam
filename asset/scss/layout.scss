@@ -903,8 +903,7 @@
   transition-timing-function: linear;
 }
 
-.home .search .search_close,
-.home .search .search_open {
+.home .search .search_close, .home .search .search_open {
   display: block;
   position: absolute;
   right: -3px;
