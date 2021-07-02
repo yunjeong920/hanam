@@ -1576,6 +1576,7 @@ body {
   /* 1차 메뉴 */
   .lnb .menu .depth1 {
     z-index: 10;
+    height: 100%;
   }
   /* 열기 버튼 */
   .lnb .menu_show {
@@ -1697,11 +1698,26 @@ body {
     left: 25px;
     width: 23px;
     height: 30px;
-    background: url("../img/icon/menu_logo.png") no-repeat;
+    background: url("../img/main/menu_logo.png") no-repeat;
     background-size: auto 30px;
+  }
+  .lnb .link_list {
+    float: right;
+    overflow: hidden;
+    margin-top: 5px;
+    margin-right: 45px;
   }
   .lnb .link_item {
     float: left;
+  }
+  .lnb .language_button {
+    position: relative;
+    padding-left: 34px;
+    padding-right: 34px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #7d7d7d;
+    line-height: 40px;
   }
   .lnb .language_button::after, .lnb .language_button:before {
     display: block;
@@ -1867,10 +1883,10 @@ body {
   .lnb .menu .depth_text {
     word-break: keep-all;
   }
-  .lnb .menu .menu .depth1_list {
+  .lnb .menu .depth1_list {
     height: 100%;
     padding-top: 15px;
-    padding-right: 230px;
+    padding-right: 240px;
   }
   .lnb .menu .depth1_item {
     position: static;
@@ -1885,8 +1901,8 @@ body {
     z-index: 30;
     padding: 10px 20px 10px 25px;
     color: #1a1a1a;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 17px;
+    font-family: "NEXON Lv1 Gothic OTF";
     line-height: 20px;
     text-decoration: none;
     word-break: keep-all;
@@ -1991,7 +2007,7 @@ body {
     padding-bottom: 10px;
     color: #444;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 22px;
     text-decoration: none;
     word-break: keep-all;
@@ -2011,9 +2027,6 @@ body {
     height: 5px;
     background-position: left 31.57%;
   }
-  .lnb .menu .depth2_text[target='_blank']:after {
-    right: 15px;
-  }
   /* 2차 메뉴 활성화 */
   .lnb_show.lnb_open .lnb .menu .depth1_item.active .depth2 {
     visibility: visible;
@@ -2021,11 +2034,6 @@ body {
   .lnb .menu .depth2_item.active {
     position: relative;
     z-index: 10;
-  }
-  .lnb .menu .depth2_item.active .depth2 {
-    right: 0;
-    z-index: 20;
-    padding: 15px 20px 15px 30px;
   }
   .lnb .menu .depth2_item.active .depth2_text {
     border-bottom: 1px solid #437dea;
@@ -2036,6 +2044,14 @@ body {
   }
   .lnb .menu .depth2_item.active .depth2_text:after {
     background-position: right 71.05%;
+  }
+  .lnb .menu .depth1_item.active .depth2 {
+    right: 0;
+    z-index: 20;
+    padding: 15px 20px 15px 20px;
+  }
+  .lnb .menu .depth2_item.active .depth3_item {
+    margin-top: 10px;
   }
   /* 3차 메뉴 */
   .lnb .menu .depth3 {
@@ -2053,7 +2069,7 @@ body {
     position: relative;
     padding-left: 11px;
     padding-right: 11px;
-    font-weight: 200;
+    font-weight: 600;
     text-decoration: none;
     transition: none;
   }
@@ -2145,7 +2161,7 @@ body {
     opacity: 0;
     display: block;
     position: absolute;
-    top: 13px;
+    top: 10px;
     left: 10px;
     width: 5px;
     height: 1px;
@@ -2161,7 +2177,7 @@ body {
   .lnb .menu .depth2_item.active .depth4 {
     transition-property: visibility, opacity;
     visibility: visible;
-    opacity: 1l;
+    opacity: 1;
   }
   .lnb .menu .depth2_item.active .depth4_list {
     margin-top: 10px;
@@ -2178,7 +2194,7 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 24px;
     color: #7d7d7d;
     word-break: keep-all;
@@ -2356,6 +2372,12 @@ body {
   .lnb .logout .user_anchor:before {
     background-position: left 100%;
   }
+  .lnb .link_list {
+    float: right;
+    overflow: hidden;
+    margin-top: 5px;
+    margin-right: 45px;
+  }
 }
 
 @media all and (max-width: 640px) {
@@ -2375,6 +2397,9 @@ body {
   }
   .lnb .info .user_anchor {
     padding-left: 30px;
+  }
+  .fixed .lnb .link_list {
+    margin-top: 0;
   }
 }
 
@@ -2701,4 +2726,94 @@ body {
     padding-top: 50px;
     padding-left: 420px;
   }
+}
+
+@media all and (max-width: 1000px) {
+  .rowgroup:before {
+    height: 819px;
+  }
+  .rowgroup .colgroup {
+    left: 3%;
+  }
+  #container .rowgroup .wrap {
+    padding-top: 50px;
+    padding-left: 420px;
+  }
+}
+
+@media all and (max-width: 800px) {
+  .rowgroup:before {
+    left: 0;
+    width: 100%;
+    height: 1350px;
+  }
+  .rowgroup .colgroup {
+    position: relative;
+    top: auto;
+    left: 0;
+    width: 100%;
+    max-width: 510px;
+  }
+  #container .rowgroup .wrap {
+    padding-top: 0;
+    padding-right: 3%;
+    padding-left: 3%;
+  }
+}
+
+@media all and (max-width: 640px) {
+  .rowgroup:before {
+    height: 1093px;
+  }
+  .rowgroup .colgroup {
+    right: 0;
+    width: 330px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+/* 비주얼팝업 */
+.visual {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.visual .visual_auto:before, .visual .visual_next:before, .visual .visual_open:after, .visual .visual_prev:before {
+  background-image: url("../img/icon/visual_sprite.png");
+  background-repeat: no-repeat;
+}
+
+.visual .visual_wrap {
+  position: relative;
+  width: 100%;
+  height: 470px;
+}
+
+.visual .visual_list {
+  font-size: 0;
+  line-height: 0;
+}
+
+.visual .visual_item {
+  display: inline-block;
+}
+
+.visual .visual_item.active {
+  z-index: 1;
+}
+
+.visual .visual_open {
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+  width: 152px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 23px;
+  background-color: #f4f5f9;
+  color: #3f78c5;
+  font-size: 16px;
+  font-family: "NEXON Lv1 Gothic OTF";
+  line-height: 45px;
 }
