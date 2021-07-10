@@ -6322,6 +6322,27 @@ body {
   background-position: left 100%;
 }
 
+@media all and (max-width: 1420px) {
+  .sns_panel .slick-slider {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .sns-slick {
+    overflow: auto;
+  }
+  .sns .sns_panel .slick-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .sns_panel .slick-track {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+}
+
 @media all and (min-width: 1000px) {
   .sns .sns_tab {
     right: 0;
