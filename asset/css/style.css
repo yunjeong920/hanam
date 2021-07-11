@@ -1415,6 +1415,7 @@ body {
     font-family: "NEXON Lv1 Gothic OTF";
     line-height: 23px;
     transition-property: color;
+    font-weight: 500;
   }
   .lnb .menu .depth1_text:after {
     visibility: hidden;
@@ -3555,8 +3556,7 @@ body {
   margin-top: 7px;
   color: #7a7d96;
   font-size: 16px;
-  font-family: "NEXON Lv1 Gothic OTF";
-  font-weight: bold;
+  font-weight: 600;
   line-height: 45px;
   transition-duration: 0.2s;
   transition-property: font-size;
@@ -4765,6 +4765,8 @@ body {
   color: #111d68;
   font-size: 24px;
   line-height: 30px;
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-weight: bold;
 }
 
 .favorite .favorite_title span {
@@ -5096,6 +5098,7 @@ body {
   color: #111d68;
   font-size: 24px;
   line-height: 30px;
+  font-family: "NEXON Lv1 Gothic OTF";
   font-weight: bold;
 }
 

@@ -1348,6 +1348,7 @@ body{
         font-family: $fontMid;
         line-height: 23px;
         transition-property: color;
+        font-weight: 500;
         &:after{
           visibility: hidden;
           opacity: 0;
@@ -3654,8 +3655,7 @@ body{
     margin-top: 7px;
     color: #7a7d96;
     font-size: 16px;
-    font-family: $fontMid;
-    font-weight: bold;
+    font-weight: 600;
     line-height: 45px;
     transition-duration: 0.2s;
     transition-property: font-size;
