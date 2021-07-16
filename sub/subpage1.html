@@ -2771,6 +2771,9 @@
                                <li class="addons_item print">
                                  <button type="button" onclick="window.print();" class="addons_button">인쇄</button>
                                </li>
+                               <!--
+                                      <li class="addons_item print"><button type="button" onclick="window.open('/common/print.jsp?siteId=www&amp;title=민원상담','print','toolbars=no, scrollbars=yes, width=1100, height=800'); return false;" class="addons_button">인쇄</button></li>
+                                    -->
                              </ul>
                            </div>
                          </div>
@@ -2782,6 +2785,11 @@
                            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ? true : false;
 
                            jQuery(document).ready(function($) {
+                             /*
+    if (document.location.protocol == 'https:') {
+        document.location.href = document.location.href.replace('https:', 'http:');
+    }
+	*/
                              if (!isMobile) {
                                $("#fm").attr("src", "//www.epeople.go.kr/jsp/user/frame/pc/cvreq/UPcCvreqForm.jsp?anc_code=4040000&channel=4040000&menu_code=PC001");
                                $("#fm").attr("width", "950");
@@ -2794,72 +2802,849 @@
                            //]]>
                          </script>
 
-                         <section class="docu">
-                           <div class="">
 
+
+                         <div class="loading black" style="position: fixed; width: 100%; height: auto; min-height: 100%; z-index: 100; top: 0px; left: 0px; display: none; opacity: 0.6;">
+                           <div style="width:100%; height:100%; top:50%; left:50%; position:absolute;">
+                             <span style="display:table-cell; text-align:center; vertical-align:middle;">
+                               <img alt="로딩이미지" src="/resource/images/paid/cmmn/bg_progress.gif">
+                             </span>
                            </div>
-                         </section>
-                       </div>
-
-                       
-
-
-                       <div class="stress web">
-                         <div class="title"><span>홈페이지</span></div>
-                         <div class="text"><span>국민신문고 홈페이지 (www.epeople.go.kr) 에서도 민원신청이 가능합니다.</span></div>
-                         <a href="http://www.epeople.go.kr" target="_blank" title="새창 바로가기" rel="noopener noreferrer" class="btn small blank">홈페이지</a>
-                       </div>
-                       <footer class="satisfy">
-                         <h3 class="skip">콘텐츠 만족도 조사</h3>
-
-                         <form method="post" name="cntntsEvalHist" id="cntntsEvalHist" action="/sym/sit/cem/addContentsEvalHist.do" onsubmit="return fn_validateCntntsEvalHist(this);">
-                           <input type="hidden" name="cntntsEvlNo" id="cntntsEvlNo" value="0">
-                           <input type="hidden" name="menuNo" id="menuNo" value="2255">
-                           <fieldset>
-                             <legend>만족도 조사</legend>
-                             <div class="satisfy_list clearfix">
-                               <p class="question">현재 페이지에서 제공하는 정보와 편의성에 대하여 만족하시나요?</p>
-                               <div class="input_radio">
-                                 <span class="p-form-checkbox">
-                                   <input type="radio" name="cntntsEvlSe" id="value5" class="p-form-radio__input" value="VERY_SATSFC">
-                                   <label for="value5" class="p-form-radio__label">매우만족</label>
-                                 </span>
-                                 <span class="p-form-checkbox">
-                                   <input type="radio" name="cntntsEvlSe" id="value4" class="p-form-radio__input" value="SATSFC">
-                                   <label for="value4" class="p-form-radio__label">만족</label>
-                                 </span>
-                                 <span class="p-form-checkbox">
-                                   <input type="radio" name="cntntsEvlSe" id="value3" class="p-form-radio__input" value="NRMLTY">
-                                   <label for="value3" class="p-form-radio__label">보통</label>
-                                 </span>
-                                 <span class="p-form-checkbox">
-                                   <input type="radio" name="cntntsEvlSe" id="value2" class="p-form-radio__input" value="DSCNTT">
-                                   <label for="value2" class="p-form-radio__label">불만족</label>
-                                 </span>
-                                 <span class="p-form-checkbox">
-                                   <input type="radio" name="cntntsEvlSe" id="value1" class="p-form-radio__input" value="VERY_DSCNTT">
-                                   <label for="value1" class="p-form-radio__label">매우불만족</label>
-                                 </span>
-                               </div>
-                             </div>
-                             <div class="opinion">
-                               <input type="text" name="cntntsOpinionCn" id="cntntsOpinionCn" title="의견을 입력해주세요" placeholder="의견을 입력해 주세요" class="p-input">
-                               <span class="opinion_submit"><input type="submit" value="의견등록하기" class="p-button"></span>
-                             </div>
-                           </fieldset>
-                         </form>
-                         <h3 class="skip">담당자 정보</h3>
-                         <div class="manager_info clearfix">
-                           <ul class="clearfix">
-                             <li class="n1"><span>정보관리</span> 민원여권과 &nbsp; 민원팀</li>
-                             <li class="n2"><span>전화번호</span> <a href="tel:031-790-5490">031-790-5490</a></li>
-                             <li class="n3"><span>최종수정일</span> 2021.01.25</li>
-                           </ul>
                          </div>
-                       </footer>
+
+                         <div id="wrap">
+                           <div class="main_blind" style="display: none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background: rgb(0, 0, 0); opacity: 0; z-index: 998;"></div>
+                           <div class="blind" style="display: none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background: rgb(0, 0, 0); opacity: 0; z-index: 998;"></div>
+                           <!-- 세션에 접근 시스템 구분자가 프레임이 아닐 경우(프레임 통합 메뉴로 접근시 세션에 접근 시스템 구분자를 추가)만 헤더와 푸터를 포함하도록 처리 -->
+
+                           <div id="containerAcc"></div>
+                           <main id="container">
+                             <section id="member">
+
+
+
+
+
+
+
+
+
+
+                               <script type="text/javascript">
+                                 //20200408/프레임통합 노경용/프레임통합메뉴 관련 변수 추가 시작
+                                 var frm_frmMenuMngNo = 'WBF-1703-000046'; //프레임메뉴관리번호
+                                 var frm_prcsInstChcePsblYn = 'N'; //처리기관선택가능여부
+                                 var frm_thptInfofAgreYn = 'N'; //제3자정보제공동의추가여부(프레임 관리 옵션)
+                                 var frmDsgnType = ''; //프레임 디자인 타입
+                                 var frm_frmMenuClsfCd = ''; //메뉴분류코드
+                                 var frm_chrgDeptCd = ''; //부서코드
+                                 var frm_pttnDrctRcptYn = ''; //민원직접접수여부
+                                 var frm_rcptTySctnCd = ''; //접수유형(부서접수/중간분류접수)
+                                 var frm_clsfRpsnNm = '';
+                                 var frm_frmMngrCnt = '0'; // 메뉴처리 담당자수
+                                 var frm_sysCrtnMngrIdCnt = '0';
+                                 var frm_clsfAplcYn = 'N';
+                                 var thptInfofAgreListYn = ''; //제3자정보제공동의정보 조회 결과 여부
+                                 //var frm_lognIndcYn = 'N';  //로그인표시여부
+                                 var requestUri = '/frm/pttn/pttnRqstInfo.npaid'; //프레임 requestURI
+                                 var returnUrl = ''; //returnUrl
+                                 var thirdInfoMode = ''; //제3자동의구분
+                                 //20200408/프레임통합 노경용/프레임통합메뉴 관련 변수 추가 끝
+
+                                 var checkedYn = $('input:checkbox[name="thptInfofAgreYn"]').is(":checked");
+                                 var thptInfofAgreYn = "";
+                                 var dplcSbrbPrvnStvl = "";
+
+                                 $(function() {
+                                   returnUrl = fn_getReturnUrl();
+                                   if ($.chkEmptyVal(frm_frmMenuMngNo)) { //세션에 프레임메뉴관리번호가 존재하면 프레임통합메뉴로 인증 후 접근한 것
+                                     //$('#subTit').hide();  //헤더 숨김
+                                     if (frm_clsfAplcYn == "Y") {
+                                       if ($.chkEmptyVal(frm_frmMenuClsfCd) && $.chkEmptyVal(frm_clsfRpsnNm)) {
+                                         $('#div_frmMenuClsfCd').css({
+                                           'color': '#000',
+                                           'paddingTop': '30px',
+                                           'paddingLeft': '20px',
+                                           'fontSize': '18px',
+                                           'fontWeight': 'bold',
+                                           'marginTop': '30px'
+                                         }).text("신청분야 : " + frm_clsfRpsnNm);
+                                         $('#div_frmMenuClsfCd').show();
+                                       }
+                                     }
+
+                                     //프레임 디자인 타입 설정
+                                     if ($.chkEmptyVal(frmDsgnType) && frmDsgnType != 'basic') { //basic=blue
+                                       $('#div_frmDsgnType').addClass(frmDsgnType);
+                                     }
+
+                                     if (frm_prcsInstChcePsblYn != 'Y') {
+                                       $('#div_step2').hide(); //2 기관선택 탭 숨김
+                                       $('#span_step3').text('2 신청완료'); //탭 숫자 변경
+                                     }
+
+                                     if (thirdInfoMode == '1' || thirdInfoMode == '5') { //민원신청(메뉴분류 포함)
+                                       if (frm_thptInfofAgreYn == 'Y' && thptInfofAgreListYn == 'Y') { //제3자정보제공동의
+                                         $('#div_thptInfofAgre').show(); //개인정보 제3자 이용동의 영역 보임
+
+                                         // 					if (frm_thptInfofAgreYn == 'Y') {  //개인정보 제3자 이용 동의
+                                         // 						$('#agree_03').prop('checked', true);
+                                         // 					}
+                                       }
+                                     } else if (thirdInfoMode == '3' || thirdInfoMode == '4') { //예산낭비신고
+                                       $('#div_thptInfofAgre2').show(); //개인정보 제3자 이용동의 영역 보임
+                                       if (thirdInfoMode == 3) {
+                                         $("#p_thptInfofAgreCntnCl").html(
+                                           "예산낭비신고의 이송/이첩, 이관, 업무처리 및 정책 반영을 위해 귀하께서 신고하신 행정기관 외 다른 행정기관에 개인정보가 제공될 수 있습니다.<br><br> 제공되는 개인정보는 신고인 성명, 일반전화, 휴대전화, 전자우편, 주소로 귀하께서 입력하신 정보입니다.<br> 귀하께서는 개인정보 제3자 제공을 동의하지 않을 수 있으며 동의하지 않더라도 신고는 가능합니다.<br> 단, 동의하지 않은 경우 해당기관의 소관업무가 아닌 경우 이송/이첩되지 아니하고 종결처리 될 수 있습니다."
+                                           );
+                                       } else if (thirdInfoMode == 4) {
+                                         $("#p_thptInfofAgreCntnCl").html(
+                                           "예산절감제안의 이송/이첩, 이관, 업무처리 및 정책 반영을 위해 귀하께서 신고하신 행정기관 외 다른 행정기관에 개인정보가 제공될 수 있습니다.<br><br> 제공되는 개인정보는 신고인 성명, 일반전화, 휴대전화, 전자우편, 주소로 귀하께서 입력하신 정보입니다.<br> 귀하께서는 개인정보 제3자 제공을 동의하지 않을 수 있으며 동의하지 않더라도 신고는 가능합니다.<br> 단, 동의하지 않은 경우 해당기관의 소관업무가 아닌 경우 이송/이첩되지 아니하고 종결처리 될 수 있습니다."
+                                           );
+                                       }
+                                     }
+
+                                     if ($.chkEmptyVal(dplcSbrbPrvnStvl)) { //본인 이름 셋
+                                       $('#str_authTitle').text('본인 인증되었습니다.');
+                                       $('#div_authBox').hide();
+                                       $('#div_mbrNm').show();
+                                       $('#span_mbrNm').css({
+                                         'fontSize': '16px',
+                                         'fontWeight': 'bold'
+                                       }).val('');
+                                       $('#div_btnNext2').show();
+                                     }
+                                   }
+
+
+                                   //sameSite 오류 시 팝업창 호출 20201020-노경용
+                                   var urlChk = false;
+                                   var agent = navigator.platform.toLowerCase();
+                                   if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf('msie') != -1)) {
+                                     $('#alert_wrap').hide();
+                                   } else {
+                                     if (opener) {
+                                       $('#alert_wrap').hide();
+                                     } else {
+                                       $('#alert_wrap').show();
+                                       switch ($('#frm_frmUrlSn').val()) {
+                                         case "1":
+                                           $('#smesite_pop').html('<span>민원분류</span>');
+                                           break;
+                                         case "2":
+                                           $('#smesite_pop').html('<span>민원신청</span>');
+                                           break;
+                                         case "3":
+                                           $('#smesite_pop').html('<span>공개민원</span>');
+                                           break;
+                                         case "4":
+                                           $('#smesite_pop').html('<span>나의민원</span>');
+                                           break;
+                                         case "5":
+                                           $('#smesite_pop').html('<span>민원FAQ</span>');
+                                           break;
+                                         case "6":
+                                           $('#smesite_pop').html('<span>일반제안</span>');
+                                           break;
+                                         case "7":
+                                           $('#smesite_pop').html('<span>공개제안</span>');
+                                           break;
+                                         case "8":
+                                           $('#smesite_pop').html('<span>나의제안</span>');
+                                           break;
+                                         case "10":
+                                           $('#smesite_pop').html('<span>우수제안</span>');
+                                           break;
+                                         case "11":
+                                           $('#smesite_pop').html('<span>대화형목록</span>');
+                                           break;
+                                         case "12":
+                                           $('#smesite_pop').html('<span>전자공청회</span>');
+                                           break;
+                                         case "13":
+                                           $('#smesite_pop').html('<span>설문형목록</span>');
+                                           break;
+                                         case "14":
+                                           $('#smesite_pop').html('<span>입법예고</span>');
+                                           break;
+                                         case "15":
+                                           $('#smesite_pop').html('<span>행정예고</span>');
+                                           break;
+                                         case "16":
+                                           $('#smesite_pop').html('<span>입법·행정예고</span>');
+                                           break;
+                                         case "17":
+                                           $('#smesite_pop').html('<span>공모제안</span>');
+                                           break;
+                                         case "18":
+                                           $('#smesite_pop').html('<span>민원·정책Q&A</span>');
+                                           break;
+                                         case "24":
+                                           $('#smesite_pop').html('<span>외국어민원신청</span>');
+                                           break;
+                                         case "25":
+                                           $('#smesite_pop').html('<span>나의외국어민원</span>');
+                                           break;
+                                         case "21":
+                                           $('#smesite_pop').html('<span>예산낭비신고</span>');
+                                           break;
+                                         case "22":
+                                           $('#smesite_pop').html('<span>나의신고</span>');
+                                           break;
+                                         case "23":
+                                           $('#smesite_pop').html('<span>예산절감제안</span>');
+                                           break;
+                                         case "19":
+                                           $('#smesite_pop').html('<span>민원Q&A</span>');
+                                           break;
+                                         case "20":
+                                           $('#smesite_pop').html('<span>정책Q&A</span>');
+                                           break;
+                                         case "32":
+                                           $('#smesite_pop').html('<span>온라인상담신청</span>');
+                                           break;
+                                         case "33":
+                                           $('#smesite_pop').html('<span>온라인상담목록</span>');
+                                           break;
+                                         default:
+                                           urlChk = true;
+                                           break;
+                                       }
+                                     }
+                                   }
+                                   var returnUrlval = "";
+                                   if (urlChk) {
+                                     returnUrlval = 'https://www.epeople.go.kr' + returnUrl;
+                                   } else {
+                                     if ($('#frm_frmAllUrl').val() == "") {
+                                       returnUrlval = 'https://www.epeople.go.kr';
+                                     } else {
+                                       returnUrlval = $('#frm_frmAllUrl').val();
+                                     }
+                                   }
+                                   $('#smesite_pop').on('click', function() {
+                                     var size = "width='800',height='800',scrollbars=1";
+                                     window.open(returnUrlval, "_blank", size);
+                                   });
+
+                                   $('#agree_01').focus();
+                                 }); //end ready
+
+
+                                 //제3자 동의 체크
+                                 function fn_chkAgree() {
+                                   //필수항목 동의 체크
+                                   if ('' != 'frm' && '' != 'frmIdea') {
+                                     if (!$('#agree_01').prop('checked')) {
+                                       jAlert("개인정보 수집 및 이용 안내 동의에<br>체크하셔야 합니다.", function() {
+                                         $('#agree_01').focus();
+                                       });
+                                       $('#modal_ok').focus();
+                                       return false;
+                                     } else {
+                                       //$('#indvifSntlItmAgreYn').val('Y');
+                                       return true;
+                                     }
+                                   } else {
+                                     return true;
+                                   }
+
+
+
+                                   //간편인증 로그인
+                                   function fn_prcsLoginSimple() {
+                                     if (fn_chkAgree()) {
+                                       var param = {
+                                         "returnUrl": returnUrl,
+                                         "callBackFncNm": "fn_nmbrLognPrcs"
+                                       };
+                                       gfn_openPopupPost("simpleCrtfPopup", param, "simpleCrtfPopup", "/nep/crtf/simpleCrtfPopup.npaid", 661, 666);
+                                     }
+                                   }
+
+                                   //아이핀
+                                   function fn_ipinModulCheck() {
+                                     if (fn_chkAgree()) {
+                                       var param = {
+                                         "returnUrl": returnUrl,
+                                         "callBackFncNm": "fn_nmbrLognPrcs"
+                                       };
+                                       gfn_openPopupPost("ipinCrtfPopup", param, "ipinCrtfPopup", "/nep/crtf/ipinCrtfPopup.npaid", 480, 520);
+                                     }
+                                   }
+
+                                   //공동인증서(구 공인인증서)
+                                   function fn_ogcrCheck() {
+                                     // 실명인증시스템(행정안전부) 작업
+                                     var startDay = new Date(2020, 09, 10); // 08->09월이 됨. 2020.10.10일
+                                     var startTime = new Date(startDay.getTime()); // 60000(1초)
+                                     var endDay = new Date(2020, 09, 10);
+                                     var endTime = new Date(endDay.getTime() + 20 * 60 * 60000); // 20시
+                                     var now = new Date();
+                                     //alert("startTime: "+startTime +",endTime: "+endTime);
+                                     var aMessage = "실명인증시스템(행정안전부) 점검으로인해 한시적으로 공동인증서(구 공인인증서) 이용이 중단됩니다.<br/><br/>중단시간: 2020.10.10.(토) 00:00 ~ 20:00";
+
+                                     if (startTime <= now && now < endTime) {
+                                       jAlert(aMessage);
+                                       return;
+                                     }
+
+                                     if (fn_chkAgree()) {
+                                       var param = {
+                                         "callId": "LOGIN_CHECK",
+                                         "returnUrl": returnUrl,
+                                         "callBackFncNm": "fn_nmbrLognPrcs"
+                                       };
+                                       gfn_openPopupPost("orctInfoCrtfPopup", param, "orctInfoCrtfPopup", "/nep/crtf/orctInfoCrtfPopup.npaid", 480, 600);
+                                     }
+                                   }
+
+                                   //금융인증서
+                                   function fn_ficrCheck() {
+                                     // 실명인증시스템(행정안전부) 작업
+                                     var startDay = new Date(2020, 09, 10); // 08->09월이 됨. 2020.10.10일
+                                     var startTime = new Date(startDay.getTime()); // 60000(1초)
+                                     var endDay = new Date(2020, 09, 10);
+                                     var endTime = new Date(endDay.getTime() + 20 * 60 * 60000); // 20시
+                                     var now = new Date();
+                                     //alert("startTime: "+startTime +",endTime: "+endTime);
+                                     var aMessage = "실명인증시스템(행정안전부) 점검으로인해 한시적으로 금융인증서 이용이 중단됩니다.<br/><br/>중단시간: 2020.10.10.(토) 00:00 ~ 20:00";
+
+                                     if (startTime <= now && now < endTime) {
+                                       jAlert(aMessage);
+                                       return;
+                                     }
+
+                                     if (fn_chkAgree()) {
+                                       var param = {
+                                         "callId": "LOGIN_CHECK",
+                                         "returnUrl": returnUrl,
+                                         "callBackFncNm": "fn_nmbrLognPrcs"
+                                       };
+                                       gfn_openPopupPost("fictInfoCrtfPopup", param, "fictInfoCrtfPopup", "/nep/crtf/fictInfoCrtfPopup.npaid", 480, 600);
+                                     }
+                                   }
+
+                                   //휴대전화
+                                   function fn_phoneCrtfcCheck() {
+                                     if (fn_chkAgree()) {
+                                       var param = {
+                                         "returnUrl": returnUrl,
+                                         "callBackFncNm": "fn_nmbrLognPrcs"
+                                       };
+                                       gfn_openPopupPost("cpCrtfPopup", param, "cpCrtfPopup", "/nep/crtf/cpCrtfPopup.npaid", 500, 600);
+                                     }
+                                   }
+
+                                   //외국인등록번호
+                                   function fn_undrtkrNoCheck() {
+                                     if (fn_chkAgree()) {
+                                       var param = {
+                                         "returnUrl": returnUrl,
+                                         "callBackFncNm": "fn_nmbrLognPrcs"
+                                       };
+                                       gfn_openPopupPost("inhbFgnoInfoCrtfPopup", param, "inhbFgnoInfoCrtfPopup", "/nep/crtf/inhbFgnoInfoCrtfPopup.npaid", 550, 450);
+                                     }
+                                   }
+
+                                   //로그인 성공시 페이지 이동
+                                   function fn_nmbrLognPrcs(param) {
+                                     $('#loginMode').val('frm');
+                                     $('#returnUrl').val(returnUrl);
+                                     if ($('#agree_03').prop('checked')) {
+                                       $('#frm_thptInfofAgreYn').val("Y");
+                                     }
+                                     /* 프레임 관련 변수 추가 하여 submit 20200413 노경용 */
+                                     var action = $.trim(param.returnUrl);
+                                     var form = $("form#frmMngInfoVO");
+                                     form.attr("action", action).submit();
+                                   }
+
+                                   //로그인 페이지로 이동
+                                   function fn_moveLogin() {
+                                     if (fn_chkAgree()) {
+                                       var url = '/frmSub/crtf/frmUserLogn.npaid?loginMode=frm&returnUrl=' + returnUrl;
+                                       $('#loginMode').val('frm');
+                                       $('#returnUrl').val(returnUrl);
+                                       $('#agreeFrm').attr({
+                                         'action': url,
+                                         'method': 'get'
+                                       }).submit();
+                                     }
+                                   }
+
+                                   //get returnUrl
+                                   function fn_getReturnUrl() {
+                                     var returnUrl = '';
+                                     if ($.chkEmptyVal(requestUri)) {
+                                       if (requestUri.indexOf('pttnRqstInfo.') > -1) { //민원신청
+                                         thirdInfoMode = '1';
+                                         returnUrl = "/frmSub/pttn/gnrlPttn/PttnRqstWrtnInfo.paid";
+                                       } else if (requestUri.indexOf('gnrlPrplRqstInfo.') > -1) { //일반제안
+                                         thirdInfoMode = '2';
+                                         returnUrl = "/frmSub/prpl/selectGnrlPrpslRqstPage.paid";
+                                       } else if (requestUri.indexOf('bdgtWstRqstInfo.') > -1) { //예산낭비신고
+                                         thirdInfoMode = '3';
+                                         returnUrl = "/frmSub/bdgtWst/selectBdgtWstRqstPage.paid";
+                                       } else if (requestUri.indexOf('bdgtRdcnPrplInfo.') > -1) { //예산절감제안
+                                         thirdInfoMode = '4';
+                                         returnUrl = "/frmSub/bdgtWst/selectBdgtRdcnPrpslRqstPage.paid";
+                                       } else if (requestUri.indexOf('frmPttnClsfList.') > -1) { //메뉴분류에서 민원신청으로 넘어온 경우
+                                         thirdInfoMode = '5';
+                                         returnUrl = "/frmSub/pttn/gnrlPttn/PttnRqstWrtnInfo.paid";
+                                       } else { //frmUserLogn.npaid (나의민원같이 .paid여서 로그인 페이지로 넘어온 경우)
+                                         thirdInfoMode = '0';
+                                         returnUrl = '';
+                                       }
+                                     }
+                                     //return encodeURIComponent(returnUrl);
+                                     return returnUrl;
+                                   }
+
+                                   //다음 버튼 클릭 이벤트
+                                   function fn_moveNext() {
+
+                                     if (returnUrl != "/frmSub/bdgtWst/selectBdgtWstRqstPage.paid" && returnUrl != "/frmSub/bdgtWst/selectBdgtRdcnPrpslRqstPage.paid") {
+                                       if ($('#agree_03').prop('checked')) {
+                                         $('#thptInfofAgreYn').val("Y");
+                                         $('#frm_thptInfofAgreYn').val("Y");
+                                       }
+                                     } else {
+                                       if ($('#agree_04').prop('checked')) {
+                                         $('#thptInfofAgreYn').val("Y");
+                                         $('#frm_thptInfofAgreYn').val("Y");
+                                       }
+                                     }
+
+                                     if (!$('#agree_01').prop('checked')) {
+                                       jAlert("개인정보 수집 및 이용 안내 동의에<br>체크하셔야 합니다.", function() {
+                                         $('#agree_01').focus();
+                                       });
+                                       $('#modal_ok').focus();
+                                       return;
+                                     } else {
+                                       if ($.chkEmptyVal($('#span_mbrNm').val())) {
+                                         //로딩바 추가 20200623-노경용
+                                         $('.loading_submit').show();
+                                         /* 프레임 관련 변수 추가 하여 submit 20200413 노경용 */
+                                         var action = $.trim(returnUrl);
+                                         var form = $("form#frmMngInfoVO");
+                                         form.attr("action", action).submit();
+                                       } else {
+                                         jAlert('본인 인증이 필요합니다.');
+                                         return;
+                                       }
+                                     }
+                                   }
+
+                                   // SNS 간편 로그인
+                                   function fn_snsLogin(socialType) {
+                                     // 		gfn_openPopupPost("snsViewer", '' ,"snsViewer", "about:blank", 600, 550);
+                                     $('#snsFrm input[name=socialType]').val(socialType);
+                                     $('#snsFrm input[name=returnUrl]').val(socialType);
+                                     $('#snsFrm input[name=checkType]').val('add');
+                                     // 		$("#snsFrm").attr("target", "snsViewer");
+                                     $('#snsFrm').attr('action', '/nep/crtf/selectSocialLogn.npaid');
+                                     $('#snsFrm').submit();
+                                   }
+                               </script>
+
+                               <form name="agreeFrm" id="agreeFrm">
+                                 <!-- <input type="hidden" id="indvifSntlItmAgreYn" name="indvifSntlItmAgreYn" value="N" />
+	<input type="hidden" id="thptInfofAgreYn" name="thptInfofAgreYn" value="N" /> -->
+                                 <input type="hidden" name="_csrf" value="ff583b84-8ced-4b42-b48c-046211e651ee">
+                                 <input type="hidden" id="loginMode" name="loginMode" value="">
+                                 <input type="hidden" id="returnUrl" name="returnUrl" value="">
+                                 <input type="hidden" id="thptInfofAgreYn" name="thptInfofAgreYn" value="N">
+                               </form>
+
+                               <header id="subTit" style="display:none;">
+                                 <h3>개인 정보 수집 및 이용 안내</h3>
+                               </header>
+
+                               <article id="txt">
+                                 <form name="frmMngInfoVO" id="frmMngInfoVO" method="post" action="">
+                                   <!-- 20200408/프레임통합 노경용/프레임통합메뉴 관련 변수 -->
+                                   <input type="hidden" id="frm_frmMenuMngNo" name="frm_frmMenuMngNo" value="WBF-1703-000046">
+                                   <input type="hidden" id="frm_instCd" name="frm_instCd" value="4040000">
+                                   <input type="hidden" id="frm_clsfAplcYn" name="frm_clsfAplcYn" value="N">
+                                   <input type="hidden" id="frm_rcptPathInstCd" name="frm_rcptPathInstCd" value="4040000">
+                                   <input type="hidden" id="frm_frmUrlSn" name="frm_frmUrlSn" value="2">
+                                   <input type="hidden" id="frm_frmAllUrl" name="frm_frmAllUrl" value="https://www.epeople.go.kr/frm/pttn/pttnRqstInfo.npaid?frmMenuMngNo=WBF-1703-000046">
+                                   <input type="hidden" id="frm_prcsInstChcePsblYn" name="frm_prcsInstChcePsblYn" value="N">
+                                   <input type="hidden" id="frm_thptInfofAgreYn" name="frm_thptInfofAgreYn" value="N">
+                                   <input type="hidden" id="frmDsgnType" name="frmDsgnType" value="">
+                                   <input type="hidden" id="frm_frmMenuClsfCd" name="frm_frmMenuClsfCd" value="">
+                                   <input type="hidden" id="frm_chrgDeptCd" name="frm_chrgDeptCd" value="">
+                                   <input type="hidden" id="frm_pttnDrctRcptYn" name="frm_pttnDrctRcptYn" value="">
+                                   <input type="hidden" id="frm_rcptTySctnCd" name="frm_rcptTySctnCd" value="">
+                                   <input type="hidden" id="frm_clsfRpsnNm" name="frm_clsfRpsnNm" value="">
+                                   <input type="hidden" id="frm_frmMngrCnt" name="frm_frmMngrCnt" value="0">
+                                   <input type="hidden" id="frm_sysCrtnMngrIdCnt" name="frm_sysCrtnMngrIdCnt" value="0">
+                                   <input type="hidden" id="frm_areaSntlYn" name="frm_areaSntlYn" value="N">
+                                   <input type="hidden" id="frm_atchFileSntlYn" name="frm_atchFileSntlYn" value="N">
+                                   <input type="hidden" id="frm_drqstrInfoIndcYn" name="frm_drqstrInfoIndcYn" value="Y">
+                                   <input type="hidden" id="frm_dpttnrInfoSntlYn" name="frm_dpttnrInfoSntlYn" value="Y">
+                                   <input type="hidden" id="frm_pttnSctnCd" name="frm_pttnSctnCd" value="80030001">
+                                   <input type="hidden" id="frm_scryPttnSctnCd" name="frm_scryPttnSctnCd" value="0A070002">
+                                   <input type="hidden" id="frm_gdncWrdsUseYn" name="frm_gdncWrdsUseYn" value="">
+                                   <input type="hidden" id="frm_egppYn" name="frm_egppYn" value="N">
+                                   <input type="hidden" id="frm_cnrsYn" name="frm_cnrsYn" value="Y">
+                                   <input type="hidden" id="frm_addnCltnItmUseYn" name="frm_addnCltnItmUseYn" value="">
+                                   <input type="hidden" id="frm_pttnClsfCd" name="frm_pttnClsfCd" value="">
+                                   <input type="hidden" id="frm_prcsTmltNumd" name="frm_prcsTmltNumd" value="">
+                                   <input type="hidden" id="frm_basePrcsPrd" name="frm_basePrcsPrd" value="7">
+                                   <input type="hidden" id="frm_menuCd" name="frm_menuCd" value="PC001">
+                                   <input type="hidden" id="frm_proPotMngrIdCnt" name="frm_proPotMngrIdCnt" value="0">
+                                   <input type="hidden" id="frm_ablYn" name="frm_ablYn" value="N">
+                                   <input type="hidden" id="acesMode" name="acesMode" value="frm">
+                                   <input type="hidden" id="frm_lwsInstNm" name="frm_lwsInstNm" value="하남시">
+                                   <input type="hidden" id="frm_cntnCl" name="frm_cntnCl" value="">
+                                   <input type="hidden" id="frm_oppbYn" name="frm_oppbYn" value="">
+                                   <input type="hidden" id="frm_pttnKndCd" name="frm_pttnKndCd" value="90100010">
+                                 </form>
+                                 <div id="div_frmDsgnType" class="cl_type ">
+                                   <!-- 프레임 디자인 타입 설정 -->
+
+                                   <div class="default_order">
+                                     <div class="order_item icon_1 on">
+                                       <span title="신청서 작성 단계">1 신청서 작성</span>
+                                     </div>
+                                     <div class="order_item icon_2" id="div_step2" style="display: none;">
+                                       <span title="기관선택 단계">2 기관선택</span>
+                                     </div>
+                                     <div class="order_item icon_3">
+                                       <span id="span_step3" title="신청완료 단계">2 신청완료</span>
+                                     </div>
+                                   </div>
+                                   <div class="titBox">
+                                     <h4>개인 정보 수집 및 이용 안내</h4>
+                                   </div>
+                                   <div class="agr_box">
+                                     <div class="agr_pt" tabindex="0">
+                                       <dl>
+                                         <dt>1. 개인정보의 수집 및 이용 목적(개인정보보호법 제15조)</dt>
+                                         <dd>국민신문고는 관계법령 등에서 정하는 소관 업무의 수행을 위하여 다음과 같이 개인정보를 수집 및 이용합니다. 수집된 개인정보는 정해진 목적 이외의 용도로는 이용되지 않으며 수집 목적이 변경될 경우 사전에 알리고 동의를 받을 예정입니다.<br>
+                                           ※ 관계법령 등 : 민원 처리에 관한 법률 및 동법 시행령, 부패방지 및 국민권익위원회의 설치와 운영에 관한 법률, 국민 제안 규정, 국가재정법 및 동법 시행령, 지방재정법 및 동법 시행령, 예산‧기금의 불법지출에 대한 국민감시 및 예산낭비신고센터의 설치‧운영에 관한 지침, 지방교육행정기관 예산낭비신고센터의 설치‧운영에 관한 규정, 행정안전부 지방예산낭비신고센터의
+                                           설치‧운영에 관한 규정, 전자정부법 및 동법 시행령, 온라인 국민참여포털의 운영에 관한 규정 등
+                                           <ul>
+                                             <li>
+                                               가. 접수·처리·사후관리 서비스 제공<br>
+                                               신청서에 포함된 개인정보는 민원의 접수·처리 등 소관 업무 수행을 위해 행정기관에서 이용합니다.<br>
+                                               행정기관에는 법령에 따라 행정권한이 있거나 행정권한을 위임 또는 위탁받은 법인·단체 또는 그 기관이나 개인이 포함됩니다. (민원 처리에 관한 법률 제2조제3호)
+                                             </li>
+                                             <li>
+                                               나. 타 행정·공공기관 시스템 이용<br>
+                                               민원의 전자적 처리를 위해 내부적으로 타 시스템 연계 및 이용 시 개인정보를 이용합니다.
+                                             </li>
+                                             <li>
+                                               다. 국민신문고 정책지원<br>
+                                               접수된 민원은 국민신문고 서비스 향상 및 정책평가를 위하여 관계 법령에 따라 분석·평가 및 처리결과의 사후관리를 시행합니다.
+                                             </li>
+                                           </ul>
+                                         </dd>
+                                       </dl>
+
+                                       <dl>
+                                         <dt>2. 수집하는 개인정보의 항목(개인정보 보호법 제15조, 제16조)</dt>
+                                         <dd>
+                                           <ul>
+                                             <li>가. 개인정보 항목</li>
+                                             <li>○ 민원<br>
+                                               - 필수 : 성명, 주소, 피신고자정보(성명‧주소‧근무처‧연락처, 갑질 피해 또는 제보‧고발성 민원의 경우), 생년월일(병무청 민원), 연락처, 휴대전화번호(진행상황 통지 등을 휴대전화로 받고 싶은 경우), 전자우편(진행상황이나 처리결과 통지를 전자우편으로 받고 싶은 경우)<br>
+                                               - 선택 : 성별, 생년월일
+                                             </li>
+                                             <li>○ 제안<br>
+                                               - 필수 : 성명, 주소, 연락처, 휴대전화번호(진행상황 통지 등을 휴대전화로 받고 싶은 경우), 전자우편(진행상황이나 처리결과 통지를 전자우편으로 받고 싶은 경우)
+                                             </li>
+                                             <li>○ 예산낭비신고<br>
+                                               - 필수 : 성명, 주소, 연락처, 휴대전화번호(진행상황 통지 등을 휴대전화로 받고 싶은 경우), 전자우편(진행상황이나 처리결과 통지를 전자우편으로 받고 싶은 경우)
+                                             </li>
+                                             <li>나. 자동수집항목: IP(Internet Protocol)주소, 이용내용의 기록<br>
+                                               부정한 방법으로 타인명의를 사용하는 경우에 대비하기 위해 정보이용내역 등을 자동수집 합니다.<br>
+                                               ※ 부정한 방법으로 타인명의 사용 시, 주민등록법 제37조(벌칙)에 의해 처벌 받을 수 있습니다.
+                                             </li>
+                                           </ul>
+                                         </dd>
+                                       </dl>
+
+                                       <dl>
+                                         <dt>3. 개인정보의 보유 및 이용기간(공공기록물 관리에 관한 법률 시행령 제26조)</dt>
+                                         <dd>
+                                           국민신문고는 원칙적으로 개인정보 보존기간이 경과하거나, 처리목적이 달성된 경우에는 지체 없이 개인정보를 파기합니다. 다만, 다른 법령에 따라 보존하여야 하는 경우에는 그러하지 않을 수 있습니다.
+                                           <ul>
+                                             <li>가. 민원, 국민제안, 예산낭비신고 등 : 10년</li>
+                                             <li>나. 회원정보 : 탈퇴 즉시 파기</li>
+                                             <li>다. 자동수집항목 중 IP주소 : 1년</li>
+                                           </ul>
+                                         </dd>
+                                       </dl>
+
+                                       <dl>
+                                         <dt>4. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익 내용(개인정보 보호법 제16조)</dt>
+                                         <dd>민원 신청 시 수집하는 필요한 최소한의 정보 외의 개인정보 수집에 동의를 거부할 권리가 있으나 최소한의 개인정보 수집동의 거부 시에는 민원 신청 서비스가 제한됩니다.</dd>
+                                       </dl>
+                                     </div>
+                                     <div class="agree_sel">
+                                       <label for="agree_01" class="agree_check" title="개인 정보 수집 및 이용에 동의">
+                                         <input type="checkbox" id="agree_01">필수항목 동의
+                                       </label>
+                                       <!-- <label for="agree_02" class="agree_check" style="display:none";>
+					<input type="checkbox" id="agree_02">선택항목 동의
+				</label> -->
+                                     </div>
+                                     <ul class="txt_list">
+                                       <li>국민신문고를 사칭하여 금융정보를 요구하는 사기전화(보이스 피싱) 사례가 발생하고 있습니다. 행정기관에서 전화로 금융정보 등을 요구하는 경우는 없으니 피해가 발생하지 않도록 주의하시기 바랍니다.</li>
+                                     </ul>
+                                   </div>
+
+
+                                   <!-- 민원신청 시작 -->
+                                   <div id="div_thptInfofAgre" style="display:none;">
+                                     <div class="titBox">
+                                       <h4>개인 정보 제3자 이용 동의</h4>
+                                     </div>
+                                     <div class="agr_box">
+
+
+                                     </div>
+                                     <div class="agree_sel">
+                                       <label for="agree_03" class="agree_check" title="개인 정보 제3자 이용에 동의">
+                                         <input type="checkbox" id="agree_03" name="thptInfofAgreYn" value="Y">동의
+                                       </label>
+                                     </div>
+                                   </div>
+                                   <!-- 민원신청 끝 -->
+
+                                   <!-- 예산낭비신고 시작 -->
+                                   <div id="div_thptInfofAgre2" style="display:none;">
+                                     <div class="titBox">
+                                       <h4>개인 정보 제3자 이용 동의</h4>
+                                     </div>
+                                     <div class="agr_box">
+                                       <div class="agr_pt type_1">
+                                         <p id="p_thptInfofAgreCntnCl">
+                                           예산낭비신고의 이송/이첩, 이관, 업무처리 및 정책 반영을 위해 귀하께서 신고하신 행정기관 외 다른 행정기관에 개인정보가 제공될 수 있습니다.<br><br>
+                                           제공되는 개인정보는 신고인 성명, 일반전화, 휴대전화, 전자우편, 주소로 귀하께서 입력하신 정보입니다.<br>
+                                           귀하께서는 개인정보 제3자 제공을 동의하지 않을 수 있으며 동의하지 않더라도 신고는 가능합니다.<br>
+                                           단, 동의하지 않은 경우 해당기관의 소관업무가 아닌 경우 이송/이첩되지 아니하고 종결처리 될 수 있습니다.
+                                         </p>
+                                       </div>
+                                       <div class="agree_sel">
+                                         <label for="agree_04" class="agree_check" title="개인 정보 제3자 이용에 동의">
+                                           <input type="checkbox" id="agree_04">개인 정보 제3자 이용에 동의
+                                           <input type="hidden" id="thptInfofAgreYn" name="thptInfofAgreYn">
+                                         </label>
+                                       </div>
+                                     </div>
+                                   </div>
+                                   <!-- 예산낭비신고 끝 -->
+
+                                   <!-- 예산절감제안 시작 -->
+                                   <!-- <div id="div_thptInfofAgre3" style="display:none;">
+			<div class="titBox">
+				<h4>개인 정보 제3자 이용 동의</h4>
+			</div>
+			<div class="agr_box">
+				<div class="agr_pt type_1">
+					<p id="p_thptInfofAgreCntnCl">
+						예산절감제안의 이송/이첩, 이관, 업무처리 및 정책 반영을 위해 귀하께서 신고하신 행정기관 외 다른 행정기관에 개인정보가 제공될 수 있습니다.<br><br>
+						제공되는 개인정보는 신고인 성명, 일반전화, 휴대전화, 전자우편, 주소로 귀하께서 입력하신 정보입니다.<br>
+						귀하께서는 개인정보 제3자 제공을 동의하지 않을 수 있으며 동의하지 않더라도 신고는 가능합니다.<br>
+						단, 동의하지 않은 경우 해당기관의 소관업무가 아닌 경우 이송/이첩되지 아니하고 종결처리 될 수 있습니다.
+					</p>
+				</div>
+				<div class="agree_sel">
+					<label for="agree_03" class="agree_check" title="개인 정보 제3자 이용에 동의">
+						<input type="checkbox" id="agree_03">동의
+						<input type="hidden" id="thptInfofAgreYn" name="thptInfofAgreYn" value="N" >
+					</label>
+				</div>
+			</div>
+		</div> -->
+                                   <!-- 예산절감제안 끝 -->
+
+                                   <div id="div_frmMenuClsfCd" style="display:none;"></div>
+                                   <!--
+		<div id="alert_wrap" style="display:none;">
+		    <div class="popup_wrap_blank">
+		        <div class="pl_20">
+		            <p><h5><span class="orange">※ 일부 브라우저에서는 제조사의 강화된 보안정책으로 인해, 정상적인 이용에 제한이 있을 수 있습니다.</span></h5></p>
+		            <p><h5><span class="orange"> <button type="button" class="bbs_btn fill" id="smesite_pop"><span>나의신문고</span></button>&nbsp;&nbsp;버튼을 누르시거나, 국민신문고(www.epeople.go.kr)사이트를 이용하시기 바랍니다.</span></h5></p>
+		        </div>
+		    </div>
+		</div>
+		 -->
+                                   <div class="login_box mb_50 mt_0">
+                                     <!-- 			<div class="tit_box">
+				<strong>본인 인증</strong>
+			</div>
+			<div class="form_box">
+				<div class="be_join">
+					<a href="javascript:void(0);" class="be_01" onclick="fn_ipinModulCheck();"><span>아이핀</span></a>
+					<a href="javascript:void(0);" class="be_02" onclick="fn_ogcrCheck();"><span>공동인증서(구 공인인증서)</span></a>
+					<a href="javascript:void(0);" class="be_03" onclick="fn_phoneCrtfcCheck();"><span>휴대전화</span></a>
+					<a href="javascript:void(0);" class="be_04" onclick="fn_undrtkrNoCheck();"><span>외국인등록번호</span></a>
+				</div>
+			</div> -->
+                                     <div class="titBox slideTit">
+                                       <strong id="str_authTitle">본인 인증(비회원 로그인)</strong>
+                                     </div>
+                                     <div class="slideBox">
+                                       <a href="javaScript:void(0);" class="slideBtn on" id="btnOpen">상세내용 접기</a>
+                                       <div class="form_box">
+                                         <div class="bSch_row" id="div_mbrNm" style="display:none;">
+                                           <div class="bSch_col">
+                                             <strong>신청인 이름 : </strong><input id="span_mbrNm" type="text" title="신청인 이름" value="" disabled="disabled">
+                                             <span id="div_btnNext2" style="display:none;float:right">
+                                               <button type="button" class="btn fill" id="btnNext" onclick="fn_moveNext();"><span>다음</span></button>
+                                             </span>
+                                           </div>
+                                         </div>
+                                         <div class="be_join" id="div_authBox">
+
+                                           <a href="javascript:void(0);" class="be_00" onclick="fn_prcsLoginSimple()" title="간편인증 로그인 새창">
+                                             <span>간편인증 로그인</span>
+                                           </a>
+
+                                           <a href="javascript:void(0);" class="be_01" onclick="fn_ipinModulCheck();" title="아이핀 인증 새창 열림"><span>아이핀</span></a>
+                                           <a href="javascript:void(0);" class="be_05" onclick="fn_ficrCheck();" title="금융인증서 인증 새창 열림"><span>금융인증서</span></a>
+                                           <a href="javascript:void(0);" class="be_02" onclick="fn_ogcrCheck();" title="공동인증서(구 공인인증서) 인증 새창 열림"><span>공동인증서(구 공인인증서)</span></a>
+                                           <a href="javascript:void(0);" class="be_03" onclick="fn_phoneCrtfcCheck();" title="휴대전화 인증 새창 열림"><span>휴대전화</span></a>
+                                           <a href="javascript:void(0);" class="be_04" onclick="fn_undrtkrNoCheck();" title="외국인등록번호 인증 새창 열림"><span>외국인등록번호</span></a>
+                                         </div>
+                                       </div>
+                                     </div>
+
+                                     <!-- SNS 간편 로그인 시작 -->
+
+                                     <!-- SNS 간편 로그인 끝 -->
+
+                                     <div class="titBox slideTit" id="div_loginTitle" style="display:none;">
+                                       <strong>국민신문고 로그인</strong>
+                                     </div>
+                                     <div class="btnArea center" id="div_loginButton" style="display:none;">
+                                       <button type="button" class="btn gray" id="btnLogin" onclick="fn_moveLogin();"><span>로그인</span></button><br><br>
+                                       <span id="str_welcome">※ 로그인을 하시면 더 많은 정보를 편리하게 이용하실 수 있습니다.</span>
+                                     </div>
+                                   </div>
+                                   <div class="btnArea right" id="div_btnNext" style="display:none;">
+                                     <button type="button" class="btn fill" id="btnNext" onclick="fn_moveNext();"><span>다음</span></button>
+                                   </div>
+                                 </div>
+                                 <!-- 로딩 화면 추가 20200618-노경용 -->
+                                 <div class="loading_submit" style="display:none;">
+                                   <div class="apload_ing"></div>
+                                   <div class="load_box">
+                                     <span><img src="/resource/images/paid/biz/content/load_ing.png" alt="로딩 중"></span>
+                                     <strong>화면 로딩 중</strong>
+                                     <p>요청하신 화면을 로딩 중입니다. 잠시만 기다려주십시오.</p>
+                                   </div>
+                                 </div>
+                               </article>
+                             </section>
+                           </main>
+
+                         </div>
+
+
+
+
+
+
+
+
+                         <!-- 1 : 개인정보 스크립트 -->
+                         <script type="text/javascript" src="/resource/app/applex_wdigm_html5/applex_local.js?version=1.06"></script>
+                         <script src="/resource/app/applex_wdigm_html5/policy.js?version=1.03"></script>
+                         <script src="/resource/app/applex_wdigm_html5/b_word.js?version=1.05"></script>
+                         <script src="/resource/app/applex_wdigm_html5/b_word2.js?version=1.05"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/wdigm_msg_epeople.js?version=1.05"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/wdigm_constain.js?version=1.03"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/wdigm_lib.js?version=1.03"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/wdigm_expr.js?version=1.03"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/wdigm_api.js?version=1.03"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/ui/js/jquery.ui.draggable.js" type="text/javascript"></script>
+                         <script src="/resource/app/applex_wdigm_html5/applet/ui/js/jquery.alerts.js" type="text/javascript"></script>
+                         <link href="/resource/app/applex_wdigm_html5/applet/ui/css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen">
+                         <link href="/resource/app/applex_wdigm_html5/applet/ui/css/ui.alert.css" rel="stylesheet" type="text/css">
+
+                         <!-- 2 : 첨부파일 변환 스크립트 -->
+                         <iframe id="uploadIFrame1" name="uploadIFrame1" class="uploadIFrame1" style="display: none; visibility: hidden;" title="첨부파일 변환"></iframe>
+
+                         <!-- 3 : 개인정보 차단 스크립트 -->
+
+                         <!-- 4 : onchang 함수 -->
+
+                         <!-- 5 : 첨부파일 변환 알림 문구 -->
+                         <!-- <div id="applex_wdigm_html5_waiting"></div> -->
+
+                         <!-- 2021-07-08 18:19:47 -->
+                         <!-- euser22 -->
+
+
+
+                         <div class="stress web">
+                           <div class="title"><span>홈페이지</span></div>
+                           <div class="text"><span>국민신문고 홈페이지 (www.epeople.go.kr) 에서도 민원신청이 가능합니다.</span></div>
+                           <a href="http://www.epeople.go.kr" target="_blank" title="새창 바로가기" rel="noopener noreferrer" class="btn small blank">홈페이지</a>
+                         </div>
+                         <footer class="satisfy">
+                           <h3 class="skip">콘텐츠 만족도 조사</h3>
+
+                           <form method="post" name="cntntsEvalHist" id="cntntsEvalHist" action="/sym/sit/cem/addContentsEvalHist.do" onsubmit="return fn_validateCntntsEvalHist(this);">
+                             <input type="hidden" name="cntntsEvlNo" id="cntntsEvlNo" value="0">
+                             <input type="hidden" name="menuNo" id="menuNo" value="2255">
+                             <fieldset>
+                               <legend>만족도 조사</legend>
+                               <div class="satisfy_list clearfix">
+                                 <p class="question">현재 페이지에서 제공하는 정보와 편의성에 대하여 만족하시나요?</p>
+                                 <div class="input_radio">
+                                   <span class="p-form-checkbox">
+                                     <input type="radio" name="cntntsEvlSe" id="value5" class="p-form-radio__input" value="VERY_SATSFC">
+                                     <label for="value5" class="p-form-radio__label">매우만족</label>
+                                   </span>
+                                   <span class="p-form-checkbox">
+                                     <input type="radio" name="cntntsEvlSe" id="value4" class="p-form-radio__input" value="SATSFC">
+                                     <label for="value4" class="p-form-radio__label">만족</label>
+                                   </span>
+                                   <span class="p-form-checkbox">
+                                     <input type="radio" name="cntntsEvlSe" id="value3" class="p-form-radio__input" value="NRMLTY">
+                                     <label for="value3" class="p-form-radio__label">보통</label>
+                                   </span>
+                                   <span class="p-form-checkbox">
+                                     <input type="radio" name="cntntsEvlSe" id="value2" class="p-form-radio__input" value="DSCNTT">
+                                     <label for="value2" class="p-form-radio__label">불만족</label>
+                                   </span>
+                                   <span class="p-form-checkbox">
+                                     <input type="radio" name="cntntsEvlSe" id="value1" class="p-form-radio__input" value="VERY_DSCNTT">
+                                     <label for="value1" class="p-form-radio__label">매우불만족</label>
+                                   </span>
+                                 </div>
+                               </div>
+                               <div class="opinion">
+                                 <input type="text" name="cntntsOpinionCn" id="cntntsOpinionCn" title="의견을 입력해주세요" placeholder="의견을 입력해 주세요" class="p-input">
+                                 <span class="opinion_submit"><input type="submit" value="의견등록하기" class="p-button"></span>
+                               </div>
+                             </fieldset>
+                           </form>
+                           <h3 class="skip">담당자 정보</h3>
+                           <div class="manager_info clearfix">
+                             <ul class="clearfix">
+                               <li class="n1"><span>정보관리</span> 민원여권과 &nbsp; 민원팀</li>
+                               <li class="n2"><span>전화번호</span> <a href="tel:031-790-5490">031-790-5490</a></li>
+                               <li class="n3"><span>최종수정일</span> 2021.01.25</li>
+                             </ul>
+                           </div>
+                         </footer>
+                       </div>
+                     </article>
+                   </main>
+                   </footer>
                  </div>
                  </article>
        </main>
+     </div>
      </div>
      </div>
 
@@ -2890,7 +3675,7 @@
            <p class="info_copyright">Copyright (c) 2021 HANAM CITY. All rights Reserved.</p>
          </div>
          <div class="wa">
-           <a href="http://webwatch.or.kr/certification/situation.html" title="국가 공인 인증기관 : 웹와치 새창" target="_blank" class="wa_anchor">
+           <a href="l" title="국가 공인 인증기관 : 웹와치 새창" target="_blank" class="wa_anchor">
              <img src="../asset/img//wa_mark.png" alt="과학기술정보통신부 WEB ACCESSIBILITY 마크(웹 접근성 품질인증 마크)" class="wa_image">
            </a>
          </div>
